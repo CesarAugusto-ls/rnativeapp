@@ -1,21 +1,26 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
-import { Keyboard, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Keyboard } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import api from '../../services/api';
-
 import {
-    Container,
+    Avatar,
+
+    Bio, Container,
     Form,
     Input,
-    SubmitButton,
+
     List,
-    User,
-    Avatar,
+
+
     Name,
-    Bio,
+
     ProfileButton,
-    ProfileButtonText,
+    ProfileButtonText, SubmitButton,
+
+    User
 } from './styles';
+
 
 const Main = () => {
 
@@ -23,6 +28,26 @@ const Main = () => {
     const [users, setUsers] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
 
+    React.useEffect(() => {
+        getUsersStorage()
+    }, [])
+
+    React.useEffect(() => {
+        updateStorage()
+    }, [users])
+
+    const getUsersStorage = async () => {
+        const getUsers = await AsyncStorage.getItem('users')
+        const usersJson = JSON.parse(getUsers)
+
+        if (usersJson) {
+            setUsers(usersJson)
+        }
+    }
+
+    function updateStorage() {
+        AsyncStorage.setItem('users', JSON.stringify(users))
+    }
 
     const handleAddUser = async () => {
         if (newUser != '') {
