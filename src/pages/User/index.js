@@ -1,5 +1,17 @@
 import React from 'react';
-import { View } from 'react-native';
+import {
+    Avatar,
+    Bio,
+    Container,
+    Name,
+    Header,
+    Stars,
+    Starred,
+    OwnerAvatar,
+    Info,
+    Title,
+    Author,
+} from './styles';
 
 import api from '../../services/api';
 
@@ -22,13 +34,34 @@ const User = (props) => {
     const getFavorteRepository = async () => {
         const response = await api.get(`/users/${user.login}/starred`)
 
-        setStars([response.data]);
+        setStars(response.data);
+        console.tron.log(stars)
     }
 
     return (
-        <View>
+        <Container>
+            <Header>
+                <Avatar source={{ uri: user.avatar }} />
+                <Name>{user.name}</Name>
+                <Bio>{user.bio}</Bio>
+            </Header>
 
-        </View>
+            <Stars
+                data={stars}
+                keyExtractor={stars => `${stars.id}`}
+                renderItem={({ item }) => {
+                    return (
+                        <Starred>
+                            <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
+                            <Info>
+                                <Title>{item.name}</Title>
+                                <Author>{item.owner.login}</Author>
+                            </Info>
+                        </Starred>
+                    )
+                }}
+            />
+        </Container>
     )
 };
 

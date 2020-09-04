@@ -5,19 +5,14 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import api from '../../services/api';
 import {
     Avatar,
-
-    Bio, Container,
+    Bio,
+    Container,
     Form,
     Input,
-
     List,
-
-
     Name,
-
     ProfileButton,
     ProfileButtonText, SubmitButton,
-
     User
 } from './styles';
 
