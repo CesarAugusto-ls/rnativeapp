@@ -22,7 +22,7 @@ import {
 } from './styles';
 
 
-const Main = () => {
+const Main = (props) => {
 
     const [newUser, setNewUser] = React.useState('');
     const [users, setUsers] = React.useState([]);
@@ -68,6 +68,12 @@ const Main = () => {
         }
     }
 
+    const handleNavigate = (user) => {
+        const { navigation } = props
+
+        navigation.navigate('User', { user });
+    }
+
 
     return (
         <Container >
@@ -92,7 +98,7 @@ const Main = () => {
             </Form>
             <List
                 data={users}
-                keyExtractor={user => user.login}
+                keyExtractor={(user, index) => `${user.login} ${index}`}
                 renderItem={({ item }) => {
                     return (
                         <User>
@@ -100,7 +106,7 @@ const Main = () => {
                             <Name>{item.name}</Name>
                             <Bio>{item.bio}</Bio>
 
-                            <ProfileButton onPress={() => { }}>
+                            <ProfileButton onPress={() => handleNavigate(item)}>
                                 <ProfileButtonText>Ver perfil</ProfileButtonText>
                             </ProfileButton>
                         </User>
